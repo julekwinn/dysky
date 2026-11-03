@@ -138,6 +138,7 @@ Nie, celowo. Żaden kod w Dysky nie zapisuje, nie przenosi ani nie usuwa Twoich 
 - Eksport folderu albo największych plików do CSV lub JSON
 - Podpisany instalator, żeby SmartScreen przestał ostrzegać
 - Wersja na arm64
+- Okienko Snap Layouts na przycisku maksymalizacji i menu systemowe po prawym kliknięciu paska tytułu
 - Paczki w winget i Microsoft Store
 
 ## Współpraca

@@ -139,6 +139,7 @@ No, and that is by design. No code path in Dysky writes, moves or deletes your f
 - Export a folder or the largest files to CSV or JSON
 - A code-signed installer, so SmartScreen stops warning
 - An arm64 build
+- The Snap Layouts flyout on the maximize button, and the system menu on a right-click of the title bar
 - winget and Microsoft Store packages
 
 Ideas and votes are welcome in [issues](https://github.com/julekwinn/dysky/issues).
