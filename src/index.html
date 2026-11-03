@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Dysky</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="window" id="win">
+  <header class="titlebar" data-tauri-drag-region>
+    <button class="tb-btn" id="navBack" aria-label="Back" title="Back" disabled><i class="g" aria-hidden="true">&#xE72B;</i></button>
+    <svg class="logo" data-tauri-drag-region viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M12.4 4A8 8 0 0 1 15.9 19" stroke="var(--c1)"/><path d="M15.1 19.3A8 8 0 0 1 4.4 14.4" stroke="var(--c2)"/><path d="M4.2 13.6A8 8 0 0 1 6.4 6.3" stroke="var(--c3)"/><path d="M7 5.8A8 8 0 0 1 11.6 4" stroke="var(--c4)"/></svg>
+    <span class="app-name" data-tauri-drag-region>Dysky</span>
+    <div class="drag" data-tauri-drag-region></div>
+    <button class="tb-btn" id="gear" aria-label="Settings" title="Settings" aria-pressed="false"><i class="g" aria-hidden="true">&#xE713;</i></button>
+    <div class="caption">
+      <button id="min" aria-label="Minimize" title="Minimize">&#xE921;</button>
+      <button id="max" aria-label="Maximize" title="Maximize">&#xE922;</button>
+      <button id="close" aria-label="Close" title="Close">&#xE8BB;</button>
+    </div>
+  </header>
+
+  <main class="layer">
+    <section class="page home" id="home">
+      <div><h1 class="title">What takes up the space?</h1><p class="lead">Pick a drive or a folder, or drop one anywhere.</p></div>
+      <div class="tiles" id="drives"></div>
+    </section>
+
+    <section class="page scan" id="scan" hidden>
+      <svg class="ring scan-ring" id="scanRing" viewBox="0 0 400 400" aria-hidden="true">
+        <circle class="track" cx="200" cy="200" r="167"/>
+        <g id="scanSegs"></g>
+        <line class="hand" id="scanHand" x1="200" y1="60" x2="200" y2="6"/>
+        <text class="count num" x="200" y="212" id="scanCount">0</text>
+        <text class="unit" x="200" y="242">files</text>
+      </svg>
+      <div class="scan-meta"><b id="scanTitle" role="status"></b><small id="scanPath"></small></div>
+      <div class="progress" id="scanProgress" role="progressbar" aria-label="Scan progress" aria-valuemin="0" aria-valuemax="100"><i id="scanBar"></i></div>
+      <button class="btn" id="cancel">Cancel</button>
+    </section>
+
+    <section class="page browse" id="browse" hidden>
+      <div class="cmdbar">
+        <button class="btn subtle icon" id="back" aria-label="Up one level" title="Up one level (Backspace)"><i class="g" aria-hidden="true">&#xE74A;</i></button>
+        <nav class="crumbs" id="crumbs" aria-label="Path"></nav>
+        <label class="search" id="find"><input id="q" type="search" placeholder="Search" aria-label="Search by name" spellcheck="false" autocomplete="off"><i class="g" aria-hidden="true">&#xE721;</i></label>
+        <button class="btn subtle icon" id="rescan" aria-label="Scan again" title="Scan again (F5)"><i class="g" aria-hidden="true">&#xE72C;</i></button>
+      </div>
+      <div class="panes">
+        <div class="card chart" id="chart">
+          <svg class="ring" id="ring" viewBox="0 0 400 400" role="img" aria-label="Chart of the folder; the list beside it has the same items"></svg>
+          <div class="cap"><b id="cName"></b> <span class="num" id="cSize"></span> <span id="cSub"></span></div>
+        </div>
+        <div class="card side">
+          <div class="selector" id="tabs" role="tablist" aria-label="List">
+            <button role="tab" data-tab="items" aria-selected="true" aria-controls="list" tabindex="0">Contents</button>
+            <button role="tab" data-tab="files" aria-selected="false" aria-controls="list" tabindex="-1">Largest files</button>
+          </div>
+          <div class="list" id="list" role="tabpanel" aria-label="Items"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" id="settings" hidden>
+      <div class="settings">
+        <h1 class="title">Settings</h1>
+        <h2 class="sub">Appearance</h2>
+        <div class="scard" style="--i:0"><i class="g" aria-hidden="true">&#xE790;</i>
+          <div class="txt"><b>Theme</b><small>Light, dark, or the same as Windows</small></div>
+          <select class="combo" id="optTheme" aria-label="Theme"><option value="system">Use system setting</option><option value="light">Light</option><option value="dark">Dark</option></select>
+        </div>
+        <div class="scard col" style="--i:1">
+          <div><i class="g" aria-hidden="true">&#xE771;</i><div class="txt"><b id="lblForms">Chart shape</b><small>How folders are drawn</small></div></div>
+          <div class="shapes" id="forms" role="radiogroup" aria-labelledby="lblForms"></div>
+        </div>
+        <div class="scard" style="--i:2"><i class="g" aria-hidden="true">&#xE945;</i>
+          <div class="txt"><b id="lblMotion">Animations</b><small>Zoom and grow when you move between folders</small></div>
+          <label class="switch"><span aria-hidden="true">On</span><input type="checkbox" role="switch" id="optMotion" aria-labelledby="lblMotion"><i></i></label>
+        </div>
+        <h2 class="sub">Files</h2>
+        <div class="scard" style="--i:3"><i class="g" aria-hidden="true">&#xE890;</i>
+          <div class="txt"><b id="lblHidden">Show hidden and system items</b><small>Page file, hibernation file, Recycle Bin and folders that start with a dot</small></div>
+          <label class="switch"><span aria-hidden="true">On</span><input type="checkbox" role="switch" id="optHidden" aria-labelledby="lblHidden"><i></i></label>
+        </div>
+        <div class="scard" style="--i:4"><i class="g" aria-hidden="true">&#xE8EF;</i>
+          <div class="txt"><b>Size units</b><small>Binary matches the numbers File Explorer shows</small></div>
+          <select class="combo" id="optUnits" aria-label="Size units"><option value="dec">Decimal (GB)</option><option value="bin">Binary (GiB)</option></select>
+        </div>
+        <h2 class="sub">About</h2>
+        <div class="scard" style="--i:5"><i class="g" aria-hidden="true">&#xE946;</i>
+          <div class="txt"><b>Dysky <span class="num" id="version"></span></b><small>A Youlius app · Open source under the MIT License · github.com/julekwinn/dysky<br>Dysky only reads your drives. It never changes or deletes anything, and it never goes online.</small></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="menu" id="menu" role="menu" hidden>
+    <button role="menuitem" data-m="open"><i class="g" aria-hidden="true">&#xE838;</i>Open<kbd>Enter</kbd></button>
+    <button role="menuitem" data-m="copy"><i class="g" aria-hidden="true">&#xE8C8;</i>Copy path<kbd>Ctrl+C</kbd></button>
+    <hr>
+    <button role="menuitem" data-m="reveal"><i class="g" aria-hidden="true">&#xE8DA;</i>Show in File Explorer</button>
+  </div>
+  <div class="drop" id="drop" hidden><i class="g" aria-hidden="true">&#xE8B7;</i><b>Drop a folder to look inside</b></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"><i class="g" id="toastIcon" aria-hidden="true"></i><span id="toastText"></span></div>
+</div>
+<script type="module" src="app.js"></script>
+</body>
+</html>
