@@ -1,0 +1,10 @@
+* text=auto eol=lf
+
+*.rs diff=rust
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.icns binary
+*.gif binary
+*.mp4 binary

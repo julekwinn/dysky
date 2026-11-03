@@ -1,0 +1,25 @@
+{
+  "name": "dysky",
+  "private": true,
+  "version": "0.1.0",
+  "description": "See what takes up the space on your drives: a read-only disk space viewer for Windows 11",
+  "license": "MIT",
+  "author": "Youlius",
+  "homepage": "https://github.com/julekwinn/dysky",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/julekwinn/dysky.git"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "icons": "tauri icon app-icon.svg",
+    "preview": "npx --yes serve -l 5186 .",
+    "test": "node --test && cargo test --manifest-path src-tauri/Cargo.toml",
+    "lint": "cargo fmt --manifest-path src-tauri/Cargo.toml --check && cargo clippy --manifest-path src-tauri/Cargo.toml --all-targets -- -D warnings"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
