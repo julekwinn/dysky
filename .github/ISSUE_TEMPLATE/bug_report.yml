@@ -1,0 +1,56 @@
+name: Bug report
+description: Something in Dysky doesn't work or shows the wrong numbers.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time. Found a security problem? Please don't file it here; see [SECURITY.md](https://github.com/julekwinn/dysky/blob/main/SECURITY.md).
+
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      description: Press Win+R, type `winver` and copy the version and build.
+      placeholder: Windows 11 24H2 (OS Build 26100.2314)
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Dysky version
+      description: Shown in Settings → About.
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: What you did
+      description: The steps that lead to the problem. Which drive or kind of folder (OneDrive, network share, USB drive, WSL…)?
+      placeholder: |
+        1. Scanned C:
+        2. Clicked Users → Alex → AppData
+        3. …
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What happened
+      description: |
+        And what you expected instead. For wrong sizes, the number File Explorer shows helps a lot.
+        If Dysky crashed, please paste the end of `%LOCALAPPDATA%\com.youlius.dysky\crash.log`.
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Drag an image into this box. Crop or blur any folder names you'd rather not share.
+    validations:
+      required: false

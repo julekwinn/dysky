@@ -1,0 +1,32 @@
+name: Feature request
+description: An idea that would make Dysky more useful.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Dysky only reads your drives and never changes or deletes anything. Ideas that keep it that way have the best chance. Check the roadmap in the [README](https://github.com/julekwinn/dysky#roadmap) first; it may already be planned.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What you're trying to do
+      description: The situation or problem, not the solution yet.
+    validations:
+      required: true
+
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How it could work in Dysky. Sketches or screenshots from other apps are welcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Anything you tried instead
+      description: Other tools or workarounds, if any.
+    validations:
+      required: false

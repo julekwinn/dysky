@@ -1,0 +1,45 @@
+name: Release
+
+# Push a tag like v0.2.0 and this builds the installer into a draft release.
+# Check the draft on GitHub, then publish it by hand.
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build installer and draft release
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - run: npm ci
+
+      - uses: tauri-apps/tauri-action@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: v__VERSION__
+          releaseName: Dysky v__VERSION__
+          releaseDraft: true
+          generateReleaseNotes: true
+          releaseBody: |
+            Download the `x64-setup.exe` file below and run it. It installs for your user only, no admin rights needed.
+
+            The installer is not code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info**, then **Run anyway**.
+
+            What changed: see [CHANGELOG.md](https://github.com/julekwinn/dysky/blob/main/CHANGELOG.md).
