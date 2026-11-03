@@ -25,7 +25,7 @@ Dysky is a small disk space viewer for Windows 11, in the spirit of GNOME's Baob
 ## Features
 
 - **Read-only by design.** Dysky never deletes, moves or changes your files. The right-click menu has exactly three items: Open, Copy path and Show in File Explorer.
-- **Fast.** A parallel Rust scanner reads 1.6 million files on C: in about 30 seconds on a laptop. The ring fills in live as top-level folders finish.
+- **Fast.** A parallel Rust scanner reads 1.4 million files on C: in about 20 seconds on a laptop. The ring fills in live as top-level folders finish.
 - **One chart, every folder.** Click a slice to dive in with an animated zoom; hover a folder to light it up in both the chart and the list.
 - **Five shapes.** Ring, Half, Bubbles, Spiral and Dots.
 - **Search by name.** Just start typing; the chart lights up wherever the matches are.
@@ -34,7 +34,7 @@ Dysky is a small disk space viewer for Windows 11, in the spirit of GNOME's Baob
 - **Feels like Windows 11.** The real Mica backdrop, WinUI-style dropdowns, toggle switches and menus, Fluent overlay scrollbars, light, dark or system theme, and a title bar that fades when another window has the focus. The window remembers its size and position.
 - **Your units, your view.** Decimal (GB) or binary (GiB, what File Explorer counts); show or hide hidden and system items without scanning again.
 - **Keyboard and screen reader friendly.** Arrow keys move through the list (the chart follows), type to search, Backspace to go up, F5 to scan again, Esc to cancel a scan, Ctrl+C to copy a path, Shift+F10 for the menu. High contrast themes are supported.
-- **Tiny and private.** A 1.4 MB installer, a per-user install without admin rights, the WebView2 that is already in Windows, and no network access at all.
+- **Tiny and private.** A 1.5 MB installer, a per-user install without admin rights, the WebView2 that is already in Windows, and no network access at all.
 
 ## Screenshots
 
@@ -47,7 +47,7 @@ Dysky is a small disk space viewer for Windows 11, in the spirit of GNOME's Baob
 ## Download
 
 1. Open the [latest release](https://github.com/julekwinn/dysky/releases/latest).
-2. Download `Dysky_X.Y.Z_x64-setup.exe` (about 1.4 MB) and run it. It installs for your user only, so it asks for no admin rights. Uninstall it from Settings → Apps.
+2. Download `Dysky_X.Y.Z_x64-setup.exe` (about 1.5 MB) and run it. It installs for your user only, so it asks for no admin rights. Uninstall it from Settings → Apps.
 3. The installer is not code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info**, then **Run anyway**.
 
 Dysky needs 64-bit Windows 10 (version 1809 or later) or Windows 11, and Microsoft Edge WebView2, which ships with Windows 11. If WebView2 is missing, as on some older Windows 10 installs, the installer downloads it from Microsoft.

@@ -25,7 +25,7 @@ Dysky to mały program na Windows 11, który pokazuje, co zajmuje miejsce na dys
 ## Co umie
 
 - **Tylko czyta.** Dysky niczego nie usuwa, nie przenosi ani nie zmienia. Menu pod prawym przyciskiem ma trzy pozycje: Open, Copy path i Show in File Explorer.
-- **Jest szybki.** Równoległy skaner w Rust czyta 1,6 mln plików na C: w około 30 sekund na laptopie. Pierścień zapełnia się na żywo, w miarę jak kończą się kolejne foldery.
+- **Jest szybki.** Równoległy skaner w Rust czyta 1,4 mln plików na C: w około 20 sekund na laptopie. Pierścień zapełnia się na żywo, w miarę jak kończą się kolejne foldery.
 - **Jeden wykres na każdy folder.** Klikasz kawałek i wchodzisz do środka z animacją; najechanie podświetla folder na wykresie i na liście naraz.
 - **Pięć form wykresu:** Ring, Half, Bubbles, Spiral i Dots.
 - **Szukanie po nazwie.** Wystarczy zacząć pisać, a wykres podświetla miejsca z wynikami.
@@ -34,7 +34,7 @@ Dysky to mały program na Windows 11, który pokazuje, co zajmuje miejsce na dys
 - **Wygląda jak Windows 11.** Prawdziwe tło Mica, listy rozwijane, przełączniki i menu jak w WinUI, przewijanie Fluent, motyw jasny, ciemny albo jak w systemie, pasek tytułu blednie, gdy aktywne jest inne okno. Okno pamięta swój rozmiar i położenie.
 - **Jednostki i widok po Twojemu.** GB albo GiB (jak w Eksploratorze plików); ukryte i systemowe pliki włączasz i wyłączasz bez ponownego skanu.
 - **Klawiatura.** Pisanie szuka, Backspace cofa, F5 skanuje od nowa, Ctrl+C kopiuje ścieżkę.
-- **Mały i prywatny.** Instalator 1,4 MB, instalacja tylko dla Twojego konta bez uprawnień administratora, WebView2, który już jest w Windows, i zero połączeń z siecią.
+- **Mały i prywatny.** Instalator 1,5 MB, instalacja tylko dla Twojego konta bez uprawnień administratora, WebView2, który już jest w Windows, i zero połączeń z siecią.
 
 ## Zrzuty ekranu
 
@@ -47,7 +47,7 @@ Dysky to mały program na Windows 11, który pokazuje, co zajmuje miejsce na dys
 ## Pobieranie
 
 1. Otwórz [najnowsze wydanie](https://github.com/julekwinn/dysky/releases/latest).
-2. Pobierz `Dysky_X.Y.Z_x64-setup.exe` (ok. 1,4 MB) i uruchom. Instaluje się tylko dla Twojego konta, więc nie pyta o uprawnienia administratora. Odinstalujesz go w Ustawieniach → Aplikacje.
+2. Pobierz `Dysky_X.Y.Z_x64-setup.exe` (ok. 1,5 MB) i uruchom. Instaluje się tylko dla Twojego konta, więc nie pyta o uprawnienia administratora. Odinstalujesz go w Ustawieniach → Aplikacje.
 3. Instalator nie jest jeszcze podpisany, więc Windows SmartScreen może pokazać „System Windows ochronił ten komputer”. Kliknij **Więcej informacji**, potem **Uruchom mimo to**.
 
 Potrzebny jest 64-bitowy Windows 10 (od wersji 1809) albo Windows 11 i Microsoft Edge WebView2, który jest w Windows 11. Jeśli go brakuje, jak na niektórych starszych Windows 10, instalator pobierze go od Microsoftu.

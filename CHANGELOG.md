@@ -12,7 +12,7 @@ First release.
 ### Added
 
 - Home page with your drives (size, free space, usage ring) and "Choose a folder…"; a folder can also be dropped onto the window.
-- Parallel scanner in Rust: 1.6 million files on C: in about 30 seconds on a laptop. The ring fills in live as top-level folders finish, and the scan can be cancelled.
+- Parallel scanner in Rust: 1.4 million files on C: in about 20 seconds on a laptop. The ring fills in live as top-level folders finish, and the scan can be cancelled.
 - Sizes as files sit on the disk: OneDrive online-only files count as 0 bytes, compressed and sparse files count what they actually take.
 - Folders that can't be read without admin rights are counted and reported after the scan.
 - Interactive chart with the folder list beside it: click a slice to zoom in, hover a folder to light it up in both, breadcrumbs, Up and Backspace to go back.
@@ -26,7 +26,7 @@ First release.
 - Keyboard and screen reader support: one tab stop for the list with arrow keys, labelled switches, a progress bar for the scan, the menu returns focus where it came from.
 - A crash leaves a message and a log in `%LOCALAPPDATA%\com.youlius.dysky\crash.log` instead of a window that just disappears.
 - Read-only by design: Dysky never changes or deletes anything and makes no network requests.
-- Per-user NSIS installer (about 1.4 MB, no admin needed).
+- Per-user NSIS installer (about 1.5 MB, no admin needed).
 
 [Unreleased]: https://github.com/julekwinn/dysky/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/julekwinn/dysky/releases/tag/v0.1.0
