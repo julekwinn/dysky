@@ -1,0 +1,40 @@
+name: Website
+
+# Builds dysky.youlius.com (node site/build.mjs) and deploys it to Firebase Hosting when a push to main
+# changes it. The demo on the site is the app's own src/, so app changes redeploy it too.
+on:
+  push:
+    branches: [main]
+    paths: ['site/**', 'src/**', 'dev/**', 'firebase.json', '.firebaserc', 'package.json', '.github/workflows/site.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: website
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+
+      - name: JS tests
+        run: node --test
+
+      - name: Build the site
+        run: node site/build.mjs
+
+      - uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0.11.0
+        with:
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DYSKY_YOULIUS }}
+          projectId: dysky-youlius
+          target: dysky
+          channelId: live

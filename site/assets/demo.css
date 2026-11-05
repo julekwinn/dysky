@@ -1,0 +1,4 @@
+/* Added to the app's window in the web demo only. Windows keeps its own icon fonts; other systems, which
+   have neither, get the same icons from Fluent UI System Icons (MIT), built by site/tools/icons.py. */
+@font-face { font-family: "Dysky Fluent Icons"; src: url("fluent-icons.woff2") format("woff2"); font-display: block; }
+:root { --icons: "Segoe Fluent Icons", "Segoe MDL2 Assets", "Dysky Fluent Icons"; }

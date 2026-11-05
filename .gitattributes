@@ -8,3 +8,5 @@
 *.icns binary
 *.gif binary
 *.mp4 binary
+*.woff2 binary
+*.msix binary

@@ -1,0 +1,38 @@
+name: Website preview
+
+# A pull request that changes the site gets its own preview address for a week, posted as a comment.
+# Only for branches in this repository: forks and Dependabot get no deploy secrets.
+on:
+  pull_request:
+    paths: ['site/**', 'src/**', 'dev/**', 'firebase.json', '.firebaserc', '.github/workflows/site*.yml']
+
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    name: Build and deploy a preview
+    if: github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+
+      - name: JS tests
+        run: node --test
+
+      - name: Build the site
+        run: node site/build.mjs
+
+      - uses: FirebaseExtended/action-hosting-deploy@500ac625ca2dd40cbd15f7659af953801858032a # v0.11.0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DYSKY_YOULIUS }}
+          projectId: dysky-youlius
+          target: dysky
+          expires: 7d

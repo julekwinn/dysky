@@ -1,0 +1,4 @@
+{
+  "projects": { "default": "dysky-youlius" },
+  "targets": { "dysky-youlius": { "hosting": { "dysky": ["dysky-youlius"] } } }
+}
