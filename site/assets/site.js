@@ -53,7 +53,7 @@ demo.addEventListener('load', async () => {
   mark(doc.querySelector('#forms [aria-checked="true"]')?.dataset.f);
   doc.getElementById('forms').addEventListener('click', e => { const b = e.target.closest('button'); if (b) mark(b.dataset.f); });
   shapes.hidden = false;
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  // Also with reduced motion: the app then draws the ring without animating it, and the window isn't left blank.
   new IntersectionObserver(([e], seen) => {
     if (!e.isIntersecting) return;
     seen.disconnect();
