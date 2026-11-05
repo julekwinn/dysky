@@ -34,7 +34,7 @@
         "headers": [{ "key": "Cache-Control", "value": "no-cache" }]
       },
       {
-        "source": "**/*.@(png|svg|woff2)",
+        "source": "**/*.@(png|webp|svg|ico|woff2)",
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }]
       },
       {

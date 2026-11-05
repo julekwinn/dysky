@@ -99,4 +99,5 @@ For maintainers.
 
 - A push to `main` that changes the site, `src/` or `dev/` deploys it ([site.yml](.github/workflows/site.yml)); a pull request from a branch in this repository gets a preview address ([site-preview.yml](.github/workflows/site-preview.yml)).
 - The deploy key is the repository secret `FIREBASE_SERVICE_ACCOUNT_DYSKY_YOULIUS`, for a service account that can only deploy Hosting.
+- `site/assets/screens/` holds the screenshots from `docs/media` as 1180×760 WebP files; refresh them when the window changes. `sitemap.xml` and `robots.txt` come from the build, so a new page goes into `sitemap()` in `site/build.mjs`.
 - The icons are [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT). `site/tools/icons.py` turns a few of them into the demo's fallback icon font, for systems without Segoe Fluent Icons.

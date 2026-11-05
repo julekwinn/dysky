@@ -15,6 +15,7 @@ const REPO = 'https://github.com/julekwinn/dysky';
 const STORE_ID = '';
 const STORE = STORE_ID && `https://apps.microsoft.com/detail/${STORE_ID}?cid=dysky-site`;
 const VERSION = JSON.parse(read('package.json')).version;
+const TODAY = new Date().toISOString().slice(0, 10);
 const TEXT = JSON.parse(read('site/text.json'));
 const BASE = { en: '/', pl: '/pl/' };
 const FORMS = ['ring', 'half', 'bubbles', 'spiral', 'dots'];
@@ -41,6 +42,9 @@ function page(lang, path, { title, description, main, ld, script }) {
 <meta name="color-scheme" content="light dark">
 <title>${attr(title)}</title>
 <meta name="description" content="${attr(description)}">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Youlius">
+<meta name="application-name" content="Dysky">
 <link rel="canonical" href="${url(lang)}">
 <link rel="alternate" hreflang="en" href="${url('en')}">
 <link rel="alternate" hreflang="pl" href="${url('pl')}">
@@ -48,6 +52,7 @@ function page(lang, path, { title, description, main, ld, script }) {
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Dysky">
 <meta property="og:locale" content="${t.locale}">
+${Object.keys(BASE).filter(l => l !== lang).map(l => `<meta property="og:locale:alternate" content="${TEXT[l].locale}">`).join('\n')}
 <meta property="og:url" content="${url(lang)}">
 <meta property="og:title" content="${attr(t.ogTitle)}">
 <meta property="og:description" content="${attr(t.ogDescription)}">
@@ -56,8 +61,13 @@ function page(lang, path, { title, description, main, ld, script }) {
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="${attr(t.ogAlt)}">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${attr(t.ogTitle)}">
+<meta name="twitter:description" content="${attr(t.ogDescription)}">
+<meta name="twitter:image" content="${ORIGIN}/assets/og.png">
+<meta name="twitter:image:alt" content="${attr(t.ogAlt)}">
 <meta name="theme-color" content="#F7F8FB" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#131419" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/icon-256.png">
 <link rel="stylesheet" href="/assets/site.css">
@@ -74,7 +84,7 @@ ${script ? '<script type="module" src="/assets/site.js"></script>\n' : ''}${ld ?
       <a href="${REPO}">${t.navSource}</a>
     </nav>
     <div class="end">
-      <button type="button" class="pick" id="langPick" popovertarget="langs" aria-label="${attr(`${t.language}: ${t.langName}`)}">${icon('local_language')}<span>${lang.toUpperCase()}</span>${icon('chevron_down_small', 'chev')}</button>
+      <button type="button" class="pick" id="langPick" popovertarget="langs">${icon('local_language')}<span class="sr">${t.language}: </span><span>${lang.toUpperCase()}</span>${icon('chevron_down_small', 'chev')}</button>
       <div class="flyout" id="langs" popover>
 ${Object.keys(BASE).map(l => `        <a href="${BASE[l] + path}" hreflang="${l}" lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${TEXT[l].langName}${CHECK}</a>`).join('\n')}
       </div>
@@ -108,7 +118,7 @@ ${main}
 function home(lang) {
   const t = TEXT[lang];
   const store = STORE ? `<a class="store" href="${STORE}"><img src="/assets/store-${lang}.svg" width="161" height="44" alt="${attr(t.storeAlt)}"></a>` : '';
-  const faq = t.faq.map(([q, a], i) => [q, i === 5 && STORE ? `${a} ${t.faqStore}` : a]);
+  const faq = t.faq.map(([q, a]) => [q, STORE && a.includes('SmartScreen') ? `${a} ${t.faqStore}` : a]);
   const main = `<section class="hero" id="get">
   <div class="bloom" aria-hidden="true">${LOGO}</div>
   <div class="wrap">
@@ -137,6 +147,23 @@ ${t.features.map(([k, h, p]) => `      <li class="card"><span class="ico">${icon
     </ul>
   </div>
 </section>
+<section class="see" id="screenshots">
+  <div class="wrap">
+    <h2>${t.seeTitle}</h2>
+    <p class="lead">${t.seeLead}</p>
+    <div class="gallery">
+${t.shots.map(([file, alt, caption]) => `      <figure><img src="/assets/screens/${file}" width="1180" height="760" loading="lazy" decoding="async" alt="${attr(alt)}"><figcaption>${caption}</figcaption></figure>`).join('\n')}
+    </div>
+  </div>
+</section>
+<section class="how" id="how">
+  <div class="wrap">
+    <h2>${t.howTitle}</h2>
+    <ol class="steps">
+${t.how.map(([h, p]) => `      <li><h3>${h}</h3><p>${p}</p></li>`).join('\n')}
+    </ol>
+  </div>
+</section>
 <section class="source">
   <div class="wrap panel">
     <h2>${t.sourceTitle}</h2>
@@ -155,9 +182,11 @@ ${faq.map(([q, a]) => `      <details><summary>${q}${icon('chevron_down')}</summ
   const ld = { '@context': 'https://schema.org', '@graph': [
     ORG,
     { '@type': 'WebSite', '@id': `${ORIGIN}/#website`, url: `${ORIGIN}/`, name: 'Dysky', inLanguage: ['en', 'pl'], publisher: { '@id': ORG['@id'] } },
-    { '@type': 'SoftwareApplication', '@id': `${ORIGIN}/#app`, name: 'Dysky', url: ORIGIN + BASE[lang], description: t.description,
-      applicationCategory: 'UtilitiesApplication', operatingSystem: 'Windows 10, Windows 11', softwareVersion: VERSION,
+    { '@type': 'SoftwareApplication', '@id': `${ORIGIN + BASE[lang]}#app`, name: 'Dysky', url: ORIGIN + BASE[lang], description: t.description, inLanguage: lang,
+      applicationCategory: 'UtilitiesApplication', applicationSubCategory: 'Disk space analyzer', operatingSystem: 'Windows 10, Windows 11',
+      softwareVersion: VERSION, softwareRequirements: 'Microsoft Edge WebView2', releaseNotes: `${REPO}/blob/main/CHANGELOG.md`, datePublished: '2026-11-05', dateModified: TODAY,
       downloadUrl: `${ORIGIN}/download`, ...(STORE && { installUrl: STORE }), fileSize: '1.5 MB', image: `${ORIGIN}/assets/og.png`,
+      screenshot: t.shots.map(([file]) => `${ORIGIN}/assets/screens/${file}`), featureList: t.features.map(([, h]) => h),
       license: 'https://opensource.org/licenses/MIT', sameAs: [REPO], isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' }, author: { '@id': ORG['@id'] }, publisher: { '@id': ORG['@id'] } },
     { '@type': 'FAQPage', inLanguage: lang, mainEntity: faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })) },
@@ -188,7 +217,9 @@ function notFound() {
 }
 
 function sitemap() {
-  const entry = path => `  <url>\n    <loc>${ORIGIN}${BASE.en}${path}</loc>\n${Object.keys(BASE).map(l => `    <xhtml:link rel="alternate" hreflang="${l}" href="${ORIGIN}${BASE[l]}${path}"/>`).join('\n')}\n  </url>\n  <url>\n    <loc>${ORIGIN}${BASE.pl}${path}</loc>\n  </url>`;
+  // Every address lists all its language versions, itself included, as search engines ask.
+  const links = path => [...Object.keys(BASE).map(l => [l, l]), ['x-default', 'en']].map(([tag, l]) => `    <xhtml:link rel="alternate" hreflang="${tag}" href="${ORIGIN}${BASE[l]}${path}"/>`).join('\n');
+  const entry = path => Object.keys(BASE).map(l => `  <url>\n    <loc>${ORIGIN}${BASE[l]}${path}</loc>\n    <lastmod>${TODAY}</lastmod>\n${links(path)}\n  </url>`).join('\n');
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
 ${['', 'privacy'].map(entry).join('\n')}
@@ -204,6 +235,7 @@ function write(path, text) {
 rmSync(OUT, { recursive: true, force: true });
 cpSync(join(ROOT, 'site', 'assets'), join(OUT, 'assets'), { recursive: true });
 cpSync(join(ROOT, 'app-icon.svg'), join(OUT, 'favicon.svg'));
+cpSync(join(ROOT, 'src-tauri', 'icons', 'icon.ico'), join(OUT, 'favicon.ico'));
 cpSync(join(ROOT, 'src-tauri', 'icons', '128x128@2x.png'), join(OUT, 'assets', 'icon-256.png'));
 for (const lang of Object.keys(BASE)) {
   write(`${BASE[lang].slice(1)}index.html`, home(lang));
@@ -211,10 +243,11 @@ for (const lang of Object.keys(BASE)) {
 }
 write('404.html', notFound());
 write('sitemap.xml', sitemap());
-write('robots.txt', `User-agent: *\nDisallow: /demo/\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
+write('robots.txt', `User-agent: *\nAllow: /\n\nSitemap: ${ORIGIN}/sitemap.xml\n`);
 
 // The demo is the app's own window on sample data: src/ as it ships, plus the preview backend it loads in a
-// browser, plus icons for systems without Segoe Fluent Icons. Search engines are kept out of it.
+// browser, plus icons for systems without Segoe Fluent Icons. Crawlers may fetch it to draw the home page, but
+// a noindex here and on /demo/** in firebase.json keeps it out of search results.
 cpSync(join(ROOT, 'src'), join(OUT, 'demo', 'src'), { recursive: true });
 cpSync(join(ROOT, 'dev', 'preview-backend.js'), join(OUT, 'demo', 'dev', 'preview-backend.js'));
 // Not index.html: clean URLs would serve that as /demo/src, and the window's relative links would miss src/.
