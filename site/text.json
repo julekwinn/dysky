@@ -2,6 +2,11 @@
   "en": {
     "locale": "en_US",
     "langName": "English",
+    "language": "Language",
+    "theme": "Theme",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark",
     "title": "Dysky: see what takes up the space on your drives",
     "description": "A fast, read-only disk space viewer for Windows 11. Dysky scans a drive on every core and draws it as one ring chart you can explore. Open source, with no network access.",
     "ogTitle": "Dysky: see what takes up the space",
@@ -54,7 +59,7 @@
     "privacyTitle": "Privacy",
     "privacyDescription": "What Dysky and its website do with your data: nothing leaves your PC.",
     "privacyUpdated": "Updated 5 November 2026",
-    "privacyBody": "<h2>The app</h2><p>Dysky reads folder listings on your PC to show how much space things take. It never changes, moves or deletes files.</p><p>It collects nothing and sends nothing. It has no telemetry, no accounts and no network access: the window's security policy does not allow connections to the internet.</p><p>Your settings (theme, chart shape, size units) and the window's size and position are saved only on your PC. If Dysky crashes, it writes a short crash log to its own folder in <code>%LOCALAPPDATA%</code> so you can attach it to a bug report. It is never sent anywhere by itself.</p><h2>This website</h2><p>No cookies, no ads and no tracking. The demo runs on sample data inside your browser and cannot see your files. Its settings stay in your browser's local storage.</p><p>The site is hosted on Firebase Hosting by Google, which processes standard request data such as IP addresses to deliver pages and keep the service secure. Downloads come from GitHub Releases, run by GitHub. The Microsoft Store page is run by Microsoft under its own privacy statement.</p><h2>Contact</h2><p>Questions about privacy: <a href=\"mailto:contact@youlius.com\">contact@youlius.com</a>.</p>",
+    "privacyBody": "<h2>The app</h2><p>Dysky reads folder listings on your PC to show how much space things take. It never changes, moves or deletes files.</p><p>It collects nothing and sends nothing. It has no telemetry, no accounts and no network access: the window's security policy does not allow connections to the internet.</p><p>Your settings (theme, chart shape, size units) and the window's size and position are saved only on your PC. If Dysky crashes, it writes a short crash log to its own folder in <code>%LOCALAPPDATA%</code> so you can attach it to a bug report. It is never sent anywhere by itself.</p><h2>This website</h2><p>No cookies, no ads and no tracking. The demo runs on sample data inside your browser and cannot see your files. The theme you pick here and the demo's settings stay in your browser's local storage.</p><p>The site is hosted on Firebase Hosting by Google, which processes standard request data such as IP addresses to deliver pages and keep the service secure. Downloads come from GitHub Releases, run by GitHub. The Microsoft Store page is run by Microsoft under its own privacy statement.</p><h2>Contact</h2><p>Questions about privacy: <a href=\"mailto:contact@youlius.com\">contact@youlius.com</a>.</p>",
     "notFoundTitle": "This page isn't here.",
     "notFoundLead": "The link may be old, or the address has a typo.",
     "notFoundCta": "Go to the home page"
@@ -62,6 +67,11 @@
   "pl": {
     "locale": "pl_PL",
     "langName": "Polski",
+    "language": "Język",
+    "theme": "Motyw",
+    "themeSystem": "Systemowy",
+    "themeLight": "Jasny",
+    "themeDark": "Ciemny",
     "title": "Dysky: zobacz, co zajmuje miejsce na dyskach",
     "description": "Szybka przeglądarka zajętego miejsca dla Windows 11, która tylko czyta. Dysky skanuje dysk na wszystkich rdzeniach i rysuje go jako jeden wykres w kształcie pierścienia. Otwarty kod, bez dostępu do sieci.",
     "ogTitle": "Dysky: zobacz, co zajmuje miejsce",
@@ -114,7 +124,7 @@
     "privacyTitle": "Prywatność",
     "privacyDescription": "Co Dysky i jego strona robią z Twoimi danymi: nic nie opuszcza Twojego komputera.",
     "privacyUpdated": "Aktualizacja: 5 listopada 2026",
-    "privacyBody": "<h2>Aplikacja</h2><p>Dysky czyta listy folderów na Twoim komputerze, żeby pokazać, ile miejsca zajmują. Nigdy nie zmienia, nie przenosi i nie usuwa plików.</p><p>Niczego nie zbiera i niczego nie wysyła. Nie ma telemetrii, kont ani dostępu do sieci: zasady bezpieczeństwa okna nie pozwalają na połączenia z internetem.</p><p>Ustawienia (motyw, kształt wykresu, jednostki) oraz rozmiar i położenie okna są zapisywane tylko na Twoim komputerze. Gdy Dysky się zawiesi, zapisuje krótki dziennik awarii we własnym folderze w <code>%LOCALAPPDATA%</code>, żeby można go było dołączyć do zgłoszenia błędu. Sam z siebie nigdzie nie jest wysyłany.</p><h2>Ta strona</h2><p>Bez ciasteczek, reklam i śledzenia. Demo działa na przykładowych danych w Twojej przeglądarce i nie widzi Twoich plików. Jego ustawienia zostają w pamięci lokalnej przeglądarki.</p><p>Strona stoi na Firebase Hosting od Google, który przetwarza zwykłe dane żądań, takie jak adresy IP, żeby dostarczać strony i chronić usługę. Pliki do pobrania pochodzą z GitHub Releases, prowadzonego przez GitHub. Stroną w Microsoft Store zarządza Microsoft, według własnych zasad prywatności.</p><h2>Kontakt</h2><p>Pytania o prywatność: <a href=\"mailto:contact@youlius.com\">contact@youlius.com</a>.</p>",
+    "privacyBody": "<h2>Aplikacja</h2><p>Dysky czyta listy folderów na Twoim komputerze, żeby pokazać, ile miejsca zajmują. Nigdy nie zmienia, nie przenosi i nie usuwa plików.</p><p>Niczego nie zbiera i niczego nie wysyła. Nie ma telemetrii, kont ani dostępu do sieci: zasady bezpieczeństwa okna nie pozwalają na połączenia z internetem.</p><p>Ustawienia (motyw, kształt wykresu, jednostki) oraz rozmiar i położenie okna są zapisywane tylko na Twoim komputerze. Gdy Dysky się zawiesi, zapisuje krótki dziennik awarii we własnym folderze w <code>%LOCALAPPDATA%</code>, żeby można go było dołączyć do zgłoszenia błędu. Sam z siebie nigdzie nie jest wysyłany.</p><h2>Ta strona</h2><p>Bez ciasteczek, reklam i śledzenia. Demo działa na przykładowych danych w Twojej przeglądarce i nie widzi Twoich plików. Wybrany tu motyw i ustawienia demo zostają w pamięci lokalnej przeglądarki.</p><p>Strona stoi na Firebase Hosting od Google, który przetwarza zwykłe dane żądań, takie jak adresy IP, żeby dostarczać strony i chronić usługę. Pliki do pobrania pochodzą z GitHub Releases, prowadzonego przez GitHub. Stroną w Microsoft Store zarządza Microsoft, według własnych zasad prywatności.</p><h2>Kontakt</h2><p>Pytania o prywatność: <a href=\"mailto:contact@youlius.com\">contact@youlius.com</a>.</p>",
     "notFoundTitle": "Tej strony tu nie ma.",
     "notFoundLead": "Link może być stary albo w adresie jest literówka.",
     "notFoundCta": "Przejdź na stronę główną"

@@ -22,13 +22,15 @@ const ICON = { shield: 'shield_checkmark', flash: 'flash', pie: 'data_pie', shap
 
 const attr = s => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const fill = s => s.replace(/\{\{version\}\}/g, VERSION);
-const icon = name => read(`site/icons/${name}.svg`).replace(/ width="24" height="24"/, ' aria-hidden="true" focusable="false"').trim();
+const icon = (name, cls = '') => read(`site/icons/${name}.svg`).replace(/ width="\d+" height="\d+"/, ` aria-hidden="true" focusable="false"${cls && ` class="${cls}"`}`).trim();
+const CHECK = icon('checkmark', 'check');
+const THEMES = [['system', 'dark_theme', 'themeSystem'], ['light', 'weather_sunny', 'themeLight'], ['dark', 'weather_moon', 'themeDark']];
 const LOGO = `<svg viewBox="0 0 24 24" fill="none" stroke-width="3" aria-hidden="true"><path d="M12.4 4A8 8 0 0 1 15.9 19" stroke="var(--c1)"/><path d="M15.1 19.3A8 8 0 0 1 4.4 14.4" stroke="var(--c2)"/><path d="M4.2 13.6A8 8 0 0 1 6.4 6.3" stroke="var(--c3)"/><path d="M7 5.8A8 8 0 0 1 11.6 4" stroke="var(--c4)"/></svg>`;
 const ORG = { '@type': 'Organization', '@id': 'https://youlius.com/#org', name: 'Youlius', url: 'https://youlius.com/', email: 'contact@youlius.com' };
 
 // One page: the shared head, navigation and footer around `main`. `path` is the page inside a language ('' or 'privacy').
 function page(lang, path, { title, description, main, ld, script }) {
-  const t = TEXT[lang], other = lang === 'en' ? 'pl' : 'en';
+  const t = TEXT[lang];
   const url = l => ORIGIN + BASE[l] + path;
   const home = BASE[lang];
   return `<!doctype html>
@@ -59,6 +61,7 @@ function page(lang, path, { title, description, main, ld, script }) {
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/icon-256.png">
 <link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/theme.js"></script>
 ${script ? '<script type="module" src="/assets/site.js"></script>\n' : ''}${ld ? `<script type="application/ld+json">\n${JSON.stringify(ld, null, 1)}\n</script>\n` : ''}</head>
 <body>
 <a class="skip" href="#main">${t.skip}</a>
@@ -71,7 +74,14 @@ ${script ? '<script type="module" src="/assets/site.js"></script>\n' : ''}${ld ?
       <a href="${REPO}">${t.navSource}</a>
     </nav>
     <div class="end">
-      <a class="lang" href="${BASE[other] + path}" hreflang="${other}" lang="${other}">${icon('globe')}${TEXT[other].langName}</a>
+      <button type="button" class="pick" id="langPick" popovertarget="langs" aria-label="${attr(`${t.language}: ${t.langName}`)}">${icon('local_language')}<span>${lang.toUpperCase()}</span>${icon('chevron_down_small', 'chev')}</button>
+      <div class="flyout" id="langs" popover>
+${Object.keys(BASE).map(l => `        <a href="${BASE[l] + path}" hreflang="${l}" lang="${l}"${l === lang ? ' aria-current="true"' : ''}>${TEXT[l].langName}${CHECK}</a>`).join('\n')}
+      </div>
+      <button type="button" class="pick theme" id="themePick" popovertarget="themes" aria-label="${attr(t.theme)}">${THEMES.map(([k, ic]) => icon(ic, `t-${k}`)).join('')}${icon('chevron_down_small', 'chev')}</button>
+      <div class="flyout" id="themes" popover role="menu" aria-label="${attr(t.theme)}">
+${THEMES.map(([k, ic, label]) => `        <button type="button" role="menuitemradio" data-pick="${k}" aria-checked="${k === 'system'}">${icon(ic)}${t[label]}${CHECK}</button>`).join('\n')}
+      </div>
       <a class="btn accent small" href="${home}#get">${t.navGet}</a>
     </div>
   </div>
