@@ -1,6 +1,6 @@
 [package]
 name = "dysky"
-version = "0.1.0"
+version = "1.0.0"
 description = "See what takes up the space on your drives"
 authors = ["Youlius"]
 edition = "2021"

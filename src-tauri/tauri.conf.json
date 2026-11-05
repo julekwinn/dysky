@@ -36,7 +36,7 @@
     "license": "MIT",
     "licenseFile": "../LICENSE",
     "category": "Utility",
-    "homepage": "https://github.com/julekwinn/dysky",
+    "homepage": "https://dysky.youlius.com",
     "shortDescription": "See what takes up the space on your drives",
     "longDescription": "Dysky is a small, read-only disk space viewer for Windows 11. Pick a drive or a folder and see every folder as one interactive ring: click to dive in, search by name, find the largest files. It never changes or deletes anything.",
     "icon": [

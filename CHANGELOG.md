@@ -5,6 +5,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [1.0.0] - 2026-11-05
+
+The first public release, and the first one for the Microsoft Store. The app itself is the same as in 0.1.0.
+
+### Added
+
+- A Microsoft Store package (MSIX), with the app icon at every size Windows asks for, built by the release workflow from `packaging/msix`.
+- The website, [dysky.youlius.com](https://dysky.youlius.com), with a live demo of the app on a sample drive.
+- Every release also carries the installer as `Dysky-setup-x64.exe`, a name that always points at the newest version, plus `SHA256SUMS.txt` and a GitHub build attestation.
+
 ## [0.1.0] - 2026-11-03
 
 First release.
@@ -28,5 +38,6 @@ First release.
 - Read-only by design: Dysky never changes or deletes anything and makes no network requests.
 - Per-user NSIS installer (about 1.5 MB, no admin needed).
 
-[Unreleased]: https://github.com/julekwinn/dysky/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/julekwinn/dysky/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/julekwinn/dysky/releases/tag/v1.0.0
 [0.1.0]: https://github.com/julekwinn/dysky/releases/tag/v0.1.0
