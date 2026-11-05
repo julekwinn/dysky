@@ -14,7 +14,7 @@
   <a href="https://tauri.app"><img src="https://img.shields.io/badge/built%20with-Tauri%202-24C8DB?logo=tauri&logoColor=white" alt="Built with Tauri 2"></a>
 </p>
 
-<p><a href="README.pl.md">Po polsku</a></p>
+<p><a href="https://dysky.youlius.com"><b>dysky.youlius.com</b></a>: download it, or try it in your browser · <a href="README.pl.md">Po polsku</a></p>
 
 <img src="docs/media/dysky.gif" alt="Dysky scanning a drive: the ring chart fills in as folders finish, then a click on a slice zooms into that folder while the list of its contents follows on the right">
 
@@ -46,9 +46,15 @@ Dysky is a small disk space viewer for Windows 11, in the spirit of GNOME's Baob
 
 ## Download
 
-1. Open the [latest release](https://github.com/julekwinn/dysky/releases/latest).
-2. Download `Dysky_X.Y.Z_x64-setup.exe` (about 1.5 MB) and run it. It installs for your user only, so it asks for no admin rights. Uninstall it from Settings → Apps.
+1. Download [`Dysky-setup-x64.exe`](https://github.com/julekwinn/dysky/releases/latest/download/Dysky-setup-x64.exe) (about 1.5 MB) from the [latest release](https://github.com/julekwinn/dysky/releases/latest), or from [dysky.youlius.com](https://dysky.youlius.com).
+2. Run it. It installs for your user only, so it asks for no admin rights. Uninstall it from Settings → Apps.
 3. The installer is not code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info**, then **Run anyway**.
+
+Every release lists SHA-256 checksums in `SHA256SUMS.txt` and has a [build attestation](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations), so you can check that a file was built by this repository's release workflow:
+
+```powershell
+gh attestation verify Dysky-setup-x64.exe --repo julekwinn/dysky
+```
 
 Dysky needs 64-bit Windows 10 (version 1809 or later) or Windows 11, and Microsoft Edge WebView2, which ships with Windows 11. If WebView2 is missing, as on some older Windows 10 installs, the installer downloads it from Microsoft.
 
@@ -63,6 +69,8 @@ npm install      # the Tauri CLI
 npm run dev      # run the app with live reload
 npm test         # node --test and cargo test
 npm run build    # installer: src-tauri\target\release\bundle\nsis\Dysky_<version>_x64-setup.exe
+npm run msix     # after npm run build: the Microsoft Store package in dist\
+npm run site     # the website, into site\dist
 ```
 
 To work on the UI without building Rust, serve the project root and open `/src/index.html` in any browser. A preview backend with sample data stands in for the Rust side:
@@ -94,9 +102,11 @@ dysky/
 │   ├── capabilities/         What the window is allowed to call
 │   └── tauri.conf.json       Window, CSP and installer settings
 ├── dev/preview-backend.js    Sample-data stand-in for Rust in a plain browser
+├── site/                     dysky.youlius.com: pages, EN and PL texts, and a build script that adds the live demo
+├── packaging/msix/           Microsoft Store package: manifest, logos, build script
 ├── tests/                    node --test suites: chart geometry and the preview backend
 ├── docs/                     Architecture notes and README media
-└── .github/                  CI, release workflow, issue templates
+└── .github/                  CI, releases, website deploys, issue templates
 ```
 
 ## How it works
@@ -140,7 +150,7 @@ No, and that is by design. No code path in Dysky writes, moves or deletes your f
 - A code-signed installer, so SmartScreen stops warning
 - An arm64 build
 - The Snap Layouts flyout on the maximize button, and the system menu on a right-click of the title bar
-- winget and Microsoft Store packages
+- A winget package
 
 Ideas and votes are welcome in [issues](https://github.com/julekwinn/dysky/issues).
 

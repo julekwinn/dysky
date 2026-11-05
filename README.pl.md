@@ -14,7 +14,7 @@
   <a href="https://tauri.app"><img src="https://img.shields.io/badge/built%20with-Tauri%202-24C8DB?logo=tauri&logoColor=white" alt="Zbudowane w Tauri 2"></a>
 </p>
 
-<p><a href="README.md">In English</a></p>
+<p><a href="https://dysky.youlius.com/pl/"><b>dysky.youlius.com</b></a>: pobierz albo wypróbuj w przeglądarce · <a href="README.md">In English</a></p>
 
 <img src="docs/media/dysky.gif" alt="Dysky skanuje dysk: wykres pierścieniowy zapełnia się, w miarę jak kończą się foldery; kliknięcie kawałka przybliża ten folder, a lista po prawej pokazuje jego zawartość">
 
@@ -46,9 +46,15 @@ Dysky to mały program na Windows 11, który pokazuje, co zajmuje miejsce na dys
 
 ## Pobieranie
 
-1. Otwórz [najnowsze wydanie](https://github.com/julekwinn/dysky/releases/latest).
-2. Pobierz `Dysky_X.Y.Z_x64-setup.exe` (ok. 1,5 MB) i uruchom. Instaluje się tylko dla Twojego konta, więc nie pyta o uprawnienia administratora. Odinstalujesz go w Ustawieniach → Aplikacje.
+1. Pobierz [`Dysky-setup-x64.exe`](https://github.com/julekwinn/dysky/releases/latest/download/Dysky-setup-x64.exe) (ok. 1,5 MB) z [najnowszego wydania](https://github.com/julekwinn/dysky/releases/latest) albo ze strony [dysky.youlius.com](https://dysky.youlius.com/pl/).
+2. Uruchom go. Instaluje się tylko dla Twojego konta, więc nie pyta o uprawnienia administratora. Odinstalujesz go w Ustawieniach → Aplikacje.
 3. Instalator nie jest jeszcze podpisany, więc Windows SmartScreen może pokazać „System Windows ochronił ten komputer”. Kliknij **Więcej informacji**, potem **Uruchom mimo to**.
+
+Każde wydanie ma sumy SHA-256 w `SHA256SUMS.txt` i [atestację kompilacji](https://docs.github.com/actions/security-for-github-actions/using-artifact-attestations), więc możesz sprawdzić, że plik zbudował workflow wydań z tego repozytorium:
+
+```powershell
+gh attestation verify Dysky-setup-x64.exe --repo julekwinn/dysky
+```
 
 Potrzebny jest 64-bitowy Windows 10 (od wersji 1809) albo Windows 11 i Microsoft Edge WebView2, który jest w Windows 11. Jeśli go brakuje, jak na niektórych starszych Windows 10, instalator pobierze go od Microsoftu.
 
@@ -63,6 +69,8 @@ npm install      # Tauri CLI
 npm run dev      # aplikacja z podglądem na żywo
 npm test         # node --test i cargo test
 npm run build    # instalator: src-tauri\target\release\bundle\nsis\Dysky_<wersja>_x64-setup.exe
+npm run msix     # po npm run build: paczka do Microsoft Store w dist\
+npm run site     # strona internetowa, do site\dist
 ```
 
 Okno można też otworzyć w zwykłej przeglądarce, bez budowania Rust: wystarczy serwer dla głównego folderu projektu i adres `/src/index.html`. Zamiast Rust odpowiada wtedy podgląd na przykładowych danych:
@@ -94,9 +102,11 @@ dysky/
 │   ├── capabilities/         co okno może wywołać
 │   └── tauri.conf.json       okno, CSP i instalator
 ├── dev/preview-backend.js    zastępstwo Rust na przykładowych danych, do przeglądarki
+├── site/                     dysky.youlius.com: strony, teksty EN i PL, skrypt budujący z żywym demo
+├── packaging/msix/           paczka do Microsoft Store: manifest, logo, skrypt budujący
 ├── tests/                    testy node --test dla shapes.js
 ├── docs/                     opis budowy i media do README
-└── .github/                  CI, wydania, szablony zgłoszeń
+└── .github/                  CI, wydania, wdrożenia strony, szablony zgłoszeń
 ```
 
 ## Jak to działa
@@ -139,7 +149,7 @@ Nie, celowo. Żaden kod w Dysky nie zapisuje, nie przenosi ani nie usuwa Twoich 
 - Podpisany instalator, żeby SmartScreen przestał ostrzegać
 - Wersja na arm64
 - Okienko Snap Layouts na przycisku maksymalizacji i menu systemowe po prawym kliknięciu paska tytułu
-- Paczki w winget i Microsoft Store
+- Paczka w winget
 
 ## Współpraca
 

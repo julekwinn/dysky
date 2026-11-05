@@ -89,5 +89,14 @@ For maintainers.
    git tag vX.Y.Z
    git push origin vX.Y.Z
    ```
-5. The [release workflow](.github/workflows/release.yml) builds the installer and creates a **draft** release "Dysky vX.Y.Z" with it attached. The tag must match the version in `package.json`, or the workflow makes a second release under the version's tag.
-6. Download the installer from the draft, try it on a clean user account, then publish the release by hand.
+5. The [release workflow](.github/workflows/release.yml) checks that the tag matches `package.json` and creates a **draft** release "Dysky vX.Y.Z" with `Dysky_X.Y.Z_x64-setup.exe`, the same file as `Dysky-setup-x64.exe`, `SHA256SUMS.txt` and a build attestation for each file. The Microsoft Store package is the run's `dysky-msix-vX.Y.Z` artifact.
+6. Download the installer from the draft, try it on a clean user account, then publish the release by hand. From then on [dysky.youlius.com/download](https://dysky.youlius.com/download) serves it.
+7. Microsoft Store: download the artifact (`gh run download <run id> -n dysky-msix-vX.Y.Z`), start a new submission in Partner Center, replace the package and send it for certification.
+
+## Website
+
+[dysky.youlius.com](https://dysky.youlius.com) is built from `site/`: the pages and their English and Polish texts (`site/text.json`), plus a copy of `src/` with the preview backend as the live demo. `npm run site` writes it to `site/dist`. Firebase Hosting serves it with the headers in `firebase.json`, a strict Content Security Policy among them.
+
+- A push to `main` that changes the site, `src/` or `dev/` deploys it ([site.yml](.github/workflows/site.yml)); a pull request from a branch in this repository gets a preview address ([site-preview.yml](.github/workflows/site-preview.yml)).
+- The deploy key is the repository secret `FIREBASE_SERVICE_ACCOUNT_DYSKY_YOULIUS`, for a service account that can only deploy Hosting.
+- The icons are [Fluent UI System Icons](https://github.com/microsoft/fluentui-system-icons) (MIT). `site/tools/icons.py` turns a few of them into the demo's fallback icon font, for systems without Segoe Fluent Icons.
