@@ -1,35 +1,48 @@
 name: Release
 
-# Push a tag like v0.2.0 and this builds the installer into a draft release.
+# Push a tag like v1.2.0 (it must match package.json) and this builds a draft release:
+# - the installer, also as Dysky-setup-x64.exe, the name dysky.youlius.com/download points at
+# - SHA256SUMS.txt, and a build attestation (gh attestation verify <file> --repo julekwinn/dysky)
+# - the Microsoft Store package (.msix) as a workflow artifact, for Partner Center
 # Check the draft on GitHub, then publish it by hand.
 on:
   push:
     tags: ['v*']
 
 permissions:
-  contents: write
+  contents: write       # the draft release
+  id-token: write       # the build attestation
+  attestations: write
 
 jobs:
   release:
-    name: Build installer and draft release
+    name: Build installer, Store package and draft release
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v7
+
+      - name: Tag matches the version
+        shell: pwsh
+        run: |
+          $v = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          if ("v$v" -ne $env:GITHUB_REF_NAME) { throw "Tag $env:GITHUB_REF_NAME does not match package.json version $v" }
 
       - uses: actions/setup-node@v7
         with:
           node-version: lts/*
           cache: npm
 
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+        with:
+          toolchain: stable
 
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@d1527c8f67ef9af357290475d4af4b0fab8f12e0 # v2.9.3
         with:
           workspaces: src-tauri -> target
 
       - run: npm ci
 
-      - uses: tauri-apps/tauri-action@v1
+      - uses: tauri-apps/tauri-action@1deb371b0cd8bd54025b384f1cd735e725c4060f # v1.0.0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
@@ -38,8 +51,39 @@ jobs:
           releaseDraft: true
           generateReleaseNotes: true
           releaseBody: |
-            Download the `x64-setup.exe` file below and run it. It installs for your user only, no admin rights needed.
+            Download `Dysky-setup-x64.exe` below and run it. It installs for your user only, so it asks for no admin rights.
 
-            The installer is not code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info**, then **Run anyway**.
+            The installer is not code-signed yet, so Windows SmartScreen may say "Windows protected your PC". Click **More info**, then **Run anyway**. To check the file first, compare it with `SHA256SUMS.txt`, or verify where it was built with `gh attestation verify Dysky-setup-x64.exe --repo julekwinn/dysky`.
 
             What changed: see [CHANGELOG.md](https://github.com/julekwinn/dysky/blob/main/CHANGELOG.md).
+
+      - name: Fixed-name installer, Store package and checksums
+        shell: pwsh
+        run: |
+          $v = (Get-Content package.json -Raw | ConvertFrom-Json).version
+          New-Item dist -ItemType Directory -Force | Out-Null
+          $setup = "src-tauri\target\release\bundle\nsis\Dysky_${v}_x64-setup.exe"
+          Copy-Item $setup dist\
+          Copy-Item $setup dist\Dysky-setup-x64.exe
+          ./packaging/msix/build.ps1 -Version $v
+          Get-Item "dist\Dysky_${v}_x64-setup.exe", dist\Dysky-setup-x64.exe | Get-FileHash -Algorithm SHA256 |
+            ForEach-Object { "$($_.Hash.ToLower())  $(Split-Path $_.Path -Leaf)" } | Set-Content dist\SHA256SUMS.txt -Encoding ascii
+          Get-Content dist\SHA256SUMS.txt
+
+      - uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            dist/Dysky_*_x64-setup.exe
+            dist/Dysky-setup-x64.exe
+            dist/Dysky_*_x64.msix
+
+      - name: Add them to the draft release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload $env:GITHUB_REF_NAME dist/Dysky-setup-x64.exe dist/SHA256SUMS.txt --clobber
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: dysky-msix-${{ github.ref_name }}
+          path: dist/*.msix
+          if-no-files-found: error
