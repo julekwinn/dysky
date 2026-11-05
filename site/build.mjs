@@ -45,6 +45,7 @@ function page(lang, path, { title, description, main, ld, script }) {
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="author" content="Youlius">
 <meta name="application-name" content="Dysky">
+<meta name="msvalidate.01" content="5BA9C01607883DE0A19D5230E035A39A">
 <link rel="canonical" href="${url(lang)}">
 <link rel="alternate" hreflang="en" href="${url('en')}">
 <link rel="alternate" hreflang="pl" href="${url('pl')}">
